@@ -1,0 +1,10 @@
+node_modules
+dist
+.remote-assets
+components.d.ts
+*.local
+
+# artefacts Playwright (E2E)
+test-results
+playwright-report
+.playwright

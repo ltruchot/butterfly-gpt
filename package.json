@@ -1,0 +1,25 @@
+{
+  "name": "vp-monorepo-butterfly-gpt",
+  "version": "0.0.0",
+  "private": true,
+  "license": "(PolyForm-Noncommercial-1.0.0 AND CC-BY-NC-SA-4.0)",
+  "type": "module",
+  "scripts": {
+    "ready": "vp check && vp run -r test && vp run -r build",
+    "slides": "vp run -F microgpt-ts build && vp run -F @vp-monorepo-butterfly-gpt/butterfly-gpt dev",
+    "demos": "vp run -F demos dev",
+    "showcase": "vp run -F @vp-monorepo-butterfly-gpt/matrix-comics-showcase dev",
+    "gpt": "mise -C packages/microgpt-python-karpathy exec -- python microgpt.py",
+    "train": "vp run -F microgpt-ts train",
+    "infer": "vp run -F microgpt-ts infer",
+    "infer:hard": "vp run -F microgpt-ts infer:hard",
+    "prepare": "vp config"
+  },
+  "devDependencies": {
+    "vite-plus": "catalog:"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "packageManager": "pnpm@11.0.8"
+}

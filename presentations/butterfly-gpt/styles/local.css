@@ -1,0 +1,35 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Styles LOCAUX au deck butterfly-gpt (PAS la charte → pas de miroir
+   matrix-comics-showcase). Charger après charte.css.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* `.codechip` — pendant CLAIR de la pastille charte `.tag` (sombre), réservé au
+   code VRAIMENT syntaxique/exécutable (expressions, formules, appels, types,
+   variables, commandes CLI). Fond blanc + liseré encre + tokens aux teintes
+   Shiki light-plus. Style canonique : remplace les ex-`.miniexp`/`.fchip`/
+   `.sm-chip`. Classe globale → s'applique au markdown ET au DOM des composants. */
+.codechip {
+  font-family: "Fira Code", monospace;
+  font-size: 0.78em;
+  color: var(--ink);
+  background: #fff;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  padding: 0.05em 0.4em;
+  display: inline-block;
+}
+.codechip .fn {
+  color: #795e26;
+} /* fonction */
+.codechip .num {
+  color: #098658;
+} /* nombre */
+.codechip .cm {
+  color: #008000;
+} /* commentaire */
+.codechip .ty {
+  color: #267f99;
+} /* type / classe */
+.codechip .str {
+  color: #a31515;
+} /* chaîne */

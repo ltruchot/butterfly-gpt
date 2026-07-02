@@ -1,0 +1,6 @@
+# Outils gérés par mise pour ce monorepo.
+# Node/pnpm restent fournis par Vite+ (vp) ; ici on ajoute seulement Python,
+# utilisé par le package `microgpt-python-karpathy` (le microgpt.py ORIGINAL de
+# Karpathy, pur stdlib, aucune dépendance pip). Épinglé pour la reproductibilité.
+[tools]
+python = "3.12"

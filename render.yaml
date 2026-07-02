@@ -1,0 +1,25 @@
+# Render Blueprint — déploie le deck Slidev `butterfly-gpt` en site statique.
+# Servi à https://slides.gods.academy/microgpt-ts/ (hub multi-decks par sous-chemin).
+# Push sur `main` => redeploy auto. Static site = free tier (TLS + CDN inclus).
+services:
+  - type: web
+    runtime: static
+    name: microgpt-ts-slides
+    branch: main
+    autoDeployTrigger: commit
+    # Render détecte pnpm (pnpm-lock.yaml) et installe déjà les deps avant le
+    # buildCommand, en respectant `packageManager: pnpm@11.0.8`. PAS de `corepack
+    # enable` : l'image a pnpm en /usr/bin sur un FS read-only (EROFS).
+    # Étape clé : on construit d'abord `microgpt-ts` (`vp pack` -> dist/*.mjs,
+    # gitignored donc absent du clone) car le deck importe ses sous-exports
+    # (microgpt-ts/embeddings, …). `vp` est dispo via node_modules/.bin.
+    buildCommand: pnpm install --frozen-lockfile && pnpm --filter microgpt-ts run build && pnpm --filter @vp-monorepo-butterfly-gpt/butterfly-gpt run build:render
+    staticPublishPath: presentations/butterfly-gpt/dist
+    domains:
+      - slides.gods.academy
+    # Fallback SPA : les deep-links Slidev (/microgpt-ts/3, /microgpt-ts/presenter…)
+    # retombent sur l'index. Render ne réécrit pas si le fichier existe (assets OK).
+    routes:
+      - type: rewrite
+        source: /microgpt-ts/*
+        destination: /microgpt-ts/index.html

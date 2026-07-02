@@ -1,0 +1,8 @@
+/* Polices de la charte. Voie la plus fiable et indépendante du thème :
+   un @import Google Fonts ici plutôt que la clé headmatter `fonts:` (qui
+   réécrirait les familles globales). Poppins (corps) et Fira Code (code)
+   viennent déjà du thème light-icons ; on n'ajoute QUE les deux polices
+   d'affichage qui portent l'ADN comics.
+     • Anton   → titres (grotesque condensé, esprit roman graphique)
+     • Bangers → onomatopées / lettrage SFX (énergie BD) */
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Bangers&display=swap");

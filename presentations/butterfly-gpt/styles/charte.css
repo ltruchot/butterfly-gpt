@@ -1,0 +1,286 @@
+/* ════════════════════════════════════════════════════════════════════════
+   CHARTE « MATRIX COMICS »
+   Patte flat / bande dessinée posée sur le thème light-icons. L'idée force :
+   aplats de couleur + contours encrés épais + ombre dure décalée + trame
+   halftone. AUCUN néon : la « matrix-itude » passe par la narration et la
+   palette pétrole/crimson, pas par du vert fluo sur fond noir.
+   ════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --ink: #14110f; /* encre chaude (jamais #000 pur) */
+  --paper: #f4ecdd; /* crème « newsprint » */
+  --paper-2: #ece1cd; /* crème un cran plus dense (cartes) */
+  --teal: #0f5e5a; /* pétrole — couleur structurante */
+  --teal-bright: #008080; /* pont direct avec le thème light-icons */
+  --crimson: #b5223a; /* accent / danger / emphase */
+  --amber: #e8a33d; /* highlight / énergie (flash de tir) */
+  --slate: #2b3a42; /* fond sombre alternatif */
+
+  /* aligne la couleur "primary" héritée du thème sur notre pétrole */
+  --slidev-theme-primary: var(--teal-bright);
+}
+
+/* ── Fond papier + encre par défaut sur toutes les slides ───────────────── */
+/* on colore la SLIDE entière (et pas juste la zone de contenu) pour qu'aucun
+   liseré blanc ne traîne en bas quand le contenu est court. Les layouts
+   pleins (cover, image-bg, image-blur, dynamic-image) recouvrent ce fond. */
+.slidev-page {
+  background-color: var(--paper);
+}
+.slidev-layout {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: "Poppins", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ── Titres en Anton (roman graphique), sobres et lourds ────────────────── */
+.slidev-layout h1,
+.slidev-layout h2 {
+  font-family: "Anton", "Poppins", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--ink);
+  line-height: 1.02;
+}
+.slidev-layout h1 {
+  opacity: 1;
+}
+/* le thème grise les h1+p ; on garde lisible sur papier */
+.slidev-layout h1 + p {
+  opacity: 0.7;
+}
+.slidev-layout a {
+  color: var(--crimson);
+  text-underline-offset: 3px;
+}
+.slidev-layout strong {
+  color: var(--crimson);
+}
+
+/* Titre de cartouche en Anton (uppercase) — variante par couleur.
+   font-size / display / margin restent inline car ils varient par usage. */
+.label-teal {
+  font-family: "Anton", sans-serif;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+.label-crimson {
+  font-family: "Anton", sans-serif;
+  text-transform: uppercase;
+  color: var(--crimson);
+}
+.label-amber {
+  font-family: "Anton", sans-serif;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.label-ink {
+  font-family: "Anton", sans-serif;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* ── Dispositifs BD réutilisables (classes utilitaires) ─────────────────── */
+
+/* Contour encré + ombre dure décalée (le « pop » comics, sans flou) */
+.ink-border {
+  border: 3px solid var(--ink);
+  border-radius: 3px;
+  box-shadow: 6px 6px 0 var(--ink);
+  background: var(--paper);
+}
+.ink-border-lg {
+  border: 4px solid var(--ink);
+  border-radius: 3px;
+  box-shadow: 10px 10px 0 var(--ink);
+}
+
+/* Carte / panneau prêt à l'emploi */
+.panel {
+  border: 3px solid var(--ink);
+  border-radius: 3px;
+  box-shadow: 6px 6px 0 var(--ink);
+  background: var(--paper);
+  padding: 1rem 1.2rem;
+}
+
+/* Modificateurs de couleur du panneau (bordure + ombre dure assorties).
+   Placés APRÈS .panel : à spécificité égale, gagnent au cascade. */
+.panel-teal {
+  border-color: var(--teal);
+  box-shadow: 6px 6px 0 var(--teal);
+}
+.panel-crimson {
+  border-color: var(--crimson);
+  box-shadow: 6px 6px 0 var(--crimson);
+}
+.panel-amber {
+  border-color: var(--amber);
+  box-shadow: 6px 6px 0 var(--amber);
+}
+.panel-slate {
+  border-color: var(--slate);
+  box-shadow: 6px 6px 0 var(--slate);
+}
+.panel-ink {
+  border-color: var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+/* Trame halftone / Ben-Day (points réguliers, faible opacité) */
+.halftone {
+  background-image: radial-gradient(var(--ink) 1.3px, transparent 1.4px);
+  background-size: 9px 9px;
+  background-position: 0 0;
+}
+.halftone-teal {
+  background-image: radial-gradient(var(--teal) 1.4px, transparent 1.5px);
+  background-size: 9px 9px;
+}
+.halftone-amber {
+  background-image: radial-gradient(var(--amber) 1.6px, transparent 1.7px);
+  background-size: 8px 8px;
+}
+
+/* Bandeau d'accroche pétrole avec gouttière blanche (titre de section) */
+.band {
+  background: var(--teal);
+  color: var(--paper);
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+  padding: 0.35em 0.7em;
+  display: inline-block;
+}
+
+/* Onomatopée / lettrage SFX — Bangers + contour blanc épais (mimique l'encre) */
+.sfx {
+  font-family: "Bangers", "Anton", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 0.9;
+  color: var(--amber);
+  -webkit-text-stroke: 2px var(--ink);
+  paint-order: stroke fill;
+  text-shadow: 3px 3px 0 rgba(20, 17, 15, 0.25);
+}
+.sfx-white {
+  color: #fff; /* blanc franc à contour encre — pop maximal sur fond papier */
+}
+.sfx-amber {
+  color: var(--amber);
+}
+.sfx-crimson {
+  color: var(--crimson);
+}
+.sfx-teal {
+  color: var(--teal-bright);
+}
+/* teintes sombres : contour crème (au lieu d'encre) pour garder le pop sur fond papier */
+.sfx-ink {
+  color: var(--ink);
+  -webkit-text-stroke-color: var(--paper);
+  text-shadow: 3px 3px 0 rgba(15, 94, 90, 0.3);
+}
+.sfx-slate {
+  color: var(--slate);
+  -webkit-text-stroke-color: var(--paper);
+  text-shadow: 3px 3px 0 rgba(15, 94, 90, 0.3);
+}
+/* lettrage vertical de marge, comme dans le comic (« BRRRINNNG ») */
+.sfx-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 0.02em;
+}
+
+/* Étiquette de code (nom de layout, hex…) */
+.tag {
+  font-family: "Fira Code", monospace;
+  font-size: 0.78em;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.1em 0.45em;
+  border-radius: 3px;
+}
+
+/* Filet de séparation encré */
+.rule-ink {
+  height: 4px;
+  background: var(--ink);
+  border-radius: 2px;
+}
+
+/* ── Boutons comics + exécuteur de code (slide Datastar) ────────────────── */
+.btn {
+  font-family: "Anton", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 0.9rem;
+  color: var(--paper);
+  background: var(--teal);
+  border: 2.5px solid var(--ink);
+  border-radius: 3px;
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 0.35em 0.8em;
+  cursor: pointer;
+  transition: transform 0.05s ease;
+}
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.btn-crimson {
+  background: var(--crimson);
+}
+.btn-amber {
+  background: var(--amber);
+  color: var(--ink);
+}
+
+/* zone de code/sortie monospace encadrée */
+.codexec {
+  font-family: "Fira Code", monospace;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  background: #fff;
+  border: 2.5px solid var(--ink);
+  border-radius: 3px;
+  padding: 0.6em 0.8em;
+  white-space: pre-wrap;
+  overflow: auto;
+}
+
+/* Fond du code en BLANC pur. Nécessaire : le wrapper `.slidev-code` du thème
+   light-icons impose un gris #f5f5f5 (il écrase le `--shiki-light-bg: #fff` du
+   thème Shiki). La COULEUR du code, elle, vient du thème Shiki `light-plus`
+   (cf. setup/shiki.ts) — vif et contrasté, pas de bidouille CSS par token. */
+.slidev-code,
+.shiki {
+  background-color: #fff !important;
+}
+
+/* Coloration de la sortie de l'exécuteur Datastar. Les <span> sont injectés au
+   runtime (innerHTML) → PAS d'attribut scoped, donc ces règles doivent rester
+   GLOBALES (un <style scoped> ne les atteindrait pas). */
+.tk-str {
+  color: var(--teal);
+}
+.tk-num {
+  color: var(--crimson);
+}
+.btn:disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+
+/* Le thème light-icons décore tout <code> inline de back-ticks (styles/code.css :
+   content:'`'). Pour un public débutant, ça ressemble à du markdown non rendu
+   (« raté »). On retire la décoration : l'inline code garde son fond clair +
+   monospace, sans les guillemets obliques. */
+:not(pre) > code::before,
+:not(pre) > code::after {
+  content: none;
+}

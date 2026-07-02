@@ -1,0 +1,15 @@
+{
+  "name": "@vp-monorepo-butterfly-gpt/matrix-comics-showcase",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "slidev --remote --port 11119",
+    "build": "slidev build",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@slidev/cli": "catalog:",
+    "slidev-theme-light-icons": "catalog:"
+  }
+}

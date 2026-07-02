@@ -1,0 +1,58 @@
+{
+  "name": "microgpt-ts",
+  "version": "0.0.0",
+  "description": "A starter for creating a TypeScript package.",
+  "homepage": "https://github.com/author/library#readme",
+  "bugs": {
+    "url": "https://github.com/author/library/issues"
+  },
+  "license": "MIT",
+  "author": "Author Name <author.name@mail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/author/library.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./adam": "./dist/adam.mjs",
+    "./attention": "./dist/attention.mjs",
+    "./autograd": "./dist/autograd.mjs",
+    "./dataset": "./dist/dataset.mjs",
+    "./embeddings": "./dist/embeddings.mjs",
+    "./loss": "./dist/loss.mjs",
+    "./mlp": "./dist/mlp.mjs",
+    "./model": "./dist/model.mjs",
+    "./parameters": "./dist/parameters.mjs",
+    "./rmsnorm": "./dist/rmsnorm.mjs",
+    "./sample": "./dist/sample.mjs",
+    "./tokenizer": "./dist/tokenizer.mjs",
+    "./train": "./dist/train.mjs",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "vp pack",
+    "dev": "vp pack --watch",
+    "test": "vp test",
+    "check": "vp check",
+    "train": "node src/microgpt.ts",
+    "infer": "node src/microgpt.ts",
+    "infer:hard": "MICROGPT_HARD=1 node src/microgpt.ts",
+    "prepublishOnly": "vp run build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@typescript/native-preview": "catalog:",
+    "bumpp": "11.0.1",
+    "typescript": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}

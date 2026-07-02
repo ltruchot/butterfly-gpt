@@ -1,0 +1,27 @@
+{
+  "name": "@vp-monorepo-butterfly-gpt/butterfly-gpt",
+  "version": "0.0.0",
+  "private": true,
+  "license": "(PolyForm-Noncommercial-1.0.0 AND CC-BY-NC-SA-4.0)",
+  "type": "module",
+  "scripts": {
+    "dev": "slidev --remote --port 11117",
+    "build": "slidev build",
+    "build:render": "slidev build --base /microgpt-ts/ --out dist/microgpt-ts",
+    "export": "slidev export",
+    "test": "vp test",
+    "test:e2e": "vp run -F microgpt-ts build && playwright test -c tests-e2e/playwright.config.ts",
+    "test:e2e:headed": "vp run -F microgpt-ts build && playwright test -c tests-e2e/playwright.config.ts --headed"
+  },
+  "dependencies": {
+    "@slidev/cli": "catalog:",
+    "microgpt-ts": "workspace:*",
+    "slidev-theme-light-icons": "catalog:",
+    "three": "catalog:"
+  },
+  "devDependencies": {
+    "@playwright/test": "catalog:",
+    "@types/three": "catalog:",
+    "vue": "catalog:"
+  }
+}

@@ -1,0 +1,86 @@
+diff --git a/layouts/center-image.vue b/layouts/center-image.vue
+index f1b7fd3acd239aab984f6296a2c5ae0ec42fbdaf..6cb5347f5bfa72e2c1465359cd58761be0ccc7f7 100644
+--- a/layouts/center-image.vue
++++ b/layouts/center-image.vue
+@@ -14,8 +14,7 @@
+   </div>
+ </template>
+ <script setup lang="ts">
+-import { defineProps } from "vue";
+-const props = defineProps({
++defineProps({
+   image: {
+     type: String,
+     required: false,
+diff --git a/layouts/dynamic-image.vue b/layouts/dynamic-image.vue
+index fb88358ee48fc001bd9d188407df71701a42c84b..4d601a3ea9cee5c2149eb7e7cee331cbe686c269 100644
+--- a/layouts/dynamic-image.vue
++++ b/layouts/dynamic-image.vue
+@@ -88,7 +88,7 @@
+ 
+ <script setup lang="ts">
+ // Dependencies
+-import { computed, defineProps } from "vue";
++import { computed } from "vue";
+ 
+ // Utils
+ import { handleBackground } from "../utils";
+diff --git a/layouts/image-header-intro.vue b/layouts/image-header-intro.vue
+index 6ad968c9c880248902769214a27ce70cc000f277..d95c63e6f3fd34289f39f31b8b78b89beb860b54 100644
+--- a/layouts/image-header-intro.vue
++++ b/layouts/image-header-intro.vue
+@@ -19,8 +19,7 @@
+   </div>
+ </template>
+ <script setup lang="ts">
+-import { defineProps } from "vue";
+-const props = defineProps({
++defineProps({
+   imageHeader: {
+     type: String,
+     required: true,
+diff --git a/layouts/image-left.vue b/layouts/image-left.vue
+index d276a85877aa0fbb604f1af3cdfd4e334b3d5ee5..d6806351ea12c156f88a3497c0305db7ccc189a1 100644
+--- a/layouts/image-left.vue
++++ b/layouts/image-left.vue
+@@ -31,10 +31,7 @@
+ </template>
+ 
+ <script setup lang="ts">
+-// Dependencies
+-import { defineProps } from "vue";
+-
+-const props = defineProps({
++defineProps({
+   image: {
+     type: String,
+     required: false,
+diff --git a/layouts/image-right.vue b/layouts/image-right.vue
+index bcd43a9121ef53ed229d000aae18b8ef9637eb1a..000e914ebf25ce8baf4b250ec5d754a13380bc75 100644
+--- a/layouts/image-right.vue
++++ b/layouts/image-right.vue
+@@ -31,10 +31,7 @@
+ </template>
+ 
+ <script setup lang="ts">
+-// Dependencies
+-import { defineProps } from "vue";
+-
+-const props = defineProps({
++defineProps({
+   image: {
+     type: String,
+     required: false,
+diff --git a/layouts/intro.vue b/layouts/intro.vue
+index 03041f967cfdca218b689451e0b7053f31ee183e..b9bf836a675e90ec0177f2443e4e1122cb6294f2 100644
+--- a/layouts/intro.vue
++++ b/layouts/intro.vue
+@@ -7,7 +7,7 @@
+   </div>
+ </template>
+ <script setup lang="ts">
+-import { computed, defineProps } from "vue";
++import { computed } from "vue";
+ import { handleBackground } from "../utils";
+ const props = defineProps({
+   image: {

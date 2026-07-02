@@ -1,0 +1,280 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Styles des widgets interactifs, ex-`<style scoped>` des composants Vue.
+   ═══════════════════════════════════════════════════════════════════════════
+   Les widgets sont désormais du markup Datastar + web components <bgpt-*> en
+   LIGHT DOM → plus de scoping Vue (data-v-…). On REPRODUIT le scoping à la main
+   en préfixant chaque règle par la classe RACINE du widget (.surprise-mini,
+   .logexp, …) : indispensable car des classes comme .axis/.bug/.ctrl/.readout
+   existent dans plusieurs widgets avec des valeurs différentes. */
+
+/* ── SurpriseMini (−ln(proba)) ─────────────────────────────────────────────── */
+.surprise-mini {
+  border: 2.5px solid var(--crimson);
+  border-radius: 3px;
+  box-shadow: 4px 4px 0 var(--crimson);
+  background: var(--paper);
+  padding: 0.35rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  text-align: left;
+}
+.surprise-mini .sm-intro {
+  font-size: 0.66rem;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.surprise-mini .sm-line {
+  font-size: 0.66rem;
+  line-height: 1.3;
+  color: var(--ink);
+  border-top: 1.5px dashed var(--ink);
+  padding-top: 0.3rem;
+}
+.surprise-mini .sm-hi {
+  color: var(--crimson);
+}
+.surprise-mini .sm-emoji {
+  font-size: 1.05rem;
+  vertical-align: -0.1em;
+}
+.surprise-mini .sm-slider {
+  width: 100%;
+  accent-color: var(--crimson);
+}
+.surprise-mini .sm-chip {
+  align-self: center;
+}
+
+/* ── LogExpPapillon (exp/ln en miroir) ─────────────────────────────────────── */
+.logexp {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.logexp .stage {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+}
+.logexp .logexp-svg {
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+  flex: none;
+  border: 3px solid var(--ink);
+  border-radius: 3px;
+  box-shadow: 6px 6px 0 var(--ink);
+  background: linear-gradient(180deg, #fdf6e6 0%, #f6ead0 100%);
+}
+.logexp .axis {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  opacity: 0.3;
+}
+.logexp .grid line {
+  stroke: var(--ink);
+  stroke-width: 1;
+  opacity: 0.1;
+}
+.logexp .ticks line {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  opacity: 0.5;
+}
+.logexp .tick-lbl {
+  font-size: 11px;
+  fill: var(--ink);
+  opacity: 0.65;
+  font-family: "Fira Code", monospace;
+}
+.logexp .anchor {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+.logexp .anchor-lbl {
+  font-size: 10px;
+  font-weight: 700;
+  font-family: "Fira Code", monospace;
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+.logexp .mirror {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 5;
+  opacity: 0.45;
+}
+.logexp .curve-exp {
+  fill: none;
+  stroke: var(--amber);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+}
+.logexp .curve-ln {
+  fill: none;
+  stroke: var(--teal);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+}
+.logexp .lbl-exp {
+  font-size: 13px;
+  fill: var(--amber);
+  font-family: "Anton", sans-serif;
+}
+.logexp .lbl-ln {
+  font-size: 13px;
+  fill: var(--teal);
+  font-family: "Anton", sans-serif;
+}
+.logexp .link {
+  stroke: var(--crimson);
+  stroke-width: 2;
+  stroke-dasharray: 3 3;
+  opacity: 0.8;
+}
+.logexp .drop {
+  stroke-width: 1.3;
+  stroke-dasharray: 4 4;
+  opacity: 0.5;
+}
+.logexp .drop-exp {
+  stroke: var(--amber);
+}
+.logexp .drop-ln {
+  stroke: var(--teal);
+}
+.logexp .bug {
+  font-size: 22px;
+  user-select: none;
+}
+.logexp .tag-exp {
+  font-size: 11px;
+  fill: var(--amber);
+  font-family: "Fira Code", monospace;
+}
+.logexp .tag-ln {
+  font-size: 11px;
+  fill: var(--teal);
+  font-family: "Fira Code", monospace;
+}
+.logexp .controls {
+  align-self: flex-start;
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.logexp .ctrl {
+  display: flex;
+}
+.logexp .ctrl input {
+  flex: 1;
+  width: 100%;
+  accent-color: var(--ink);
+}
+.logexp .readout {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+.logexp .arrow {
+  opacity: 0.6;
+  font-size: 0.85rem;
+}
+.logexp .codechip {
+  font-size: 0.82rem;
+}
+
+/* ── DeriveePapillon (altitude h(t) + tangente) ────────────────────────────── */
+.deriv {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.deriv .deriv-svg {
+  width: 100%;
+  height: auto;
+  border: 3px solid var(--ink);
+  border-radius: 3px;
+  box-shadow: 6px 6px 0 var(--ink);
+  background:
+    radial-gradient(var(--amber) 1.2px, transparent 1.3px) 0 0 / 11px 11px,
+    linear-gradient(180deg, #fdf6e6 0%, #f6ead0 100%);
+  touch-action: none;
+}
+.deriv .axis-line {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  opacity: 0.55;
+}
+.deriv .tick {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  opacity: 0.45;
+}
+.deriv .axis-val {
+  font-family: "Fira Code", monospace;
+  font-size: 13px;
+  font-weight: 600;
+  fill: #000;
+}
+.deriv .axis-name {
+  font-family: "Fira Code", monospace;
+  font-size: 14px;
+  font-weight: 700;
+  fill: #000;
+}
+.deriv .curve {
+  fill: none;
+  stroke: var(--teal);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+}
+.deriv .tangent {
+  stroke: var(--crimson);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.deriv .bug {
+  font-size: 26px;
+  user-select: none;
+}
+.deriv .ctrl {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.deriv .ctrl input {
+  flex: 1;
+  accent-color: black;
+}
+.deriv .readout {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* ── Plate (planche encadrée à l'encre) ────────────────────────────────────── */
+.plate {
+  display: inline-block;
+  background: var(--ink);
+  line-height: 0;
+}
+.plate img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+}
+
+/* ── ParamCloud3D (nuage de paramètres Three.js) ─────────────────────────────
+   Pas de CSS ici : comme les autres <bgpt-*> (.ram, .part…), le composant
+   injecte le sien via injectStyleOnce (src/components/param-cloud.ts) —
+   une seule source de vérité. */
