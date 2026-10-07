@@ -384,7 +384,7 @@ export const fr = {
   bibliographie: {
     title: "Bibliographie",
     slidesOnline:
-      'Ces slides sont en ligne sur <a href="https://slides.gods.academy/microgpt-ts/fr">https://slides.gods.academy/microgpt-ts/fr</a>',
+      'Ces slides sont en ligne sur <a href="https://developers.gods.academy/loic-truchot/projects/butterfly-gpt/fr">https://developers.gods.academy/loic-truchot/projects/butterfly-gpt/fr</a>',
     sfxSource: "La source",
     source:
       '<div>L\'<strong><a href="https://karpathy.github.io/2026/02/12/microgpt/">article microgpt</a></strong> de Karpathy</div><div class="mt-1">Le <strong><a href="https://gist.github.com/karpathy/8627fe009c40f57531cb18360106ce95">gist du code original</a></strong></div><div class="mt-1"><strong><a href="https://github.com/iamyb/microgpt-excel">microgpt-excel</a></strong> — le même GPT, cellule par cellule, dans un tableur</div><div class="mt-2">Le <strong><a href="https://github.com/ltruchot/butterfly-gpt">code source de butterfly-gpt</a></strong> et de ces slides</div>',

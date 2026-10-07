@@ -1,5 +1,9 @@
 # Render Blueprint — déploie le deck Slidev `butterfly-gpt` en site statique.
-# Servi à https://slides.gods.academy/microgpt-ts/ (hub multi-decks par sous-chemin).
+# Adresse publique : https://developers.gods.academy/loic-truchot/projects/butterfly-gpt/
+# Ce domaine appartient au service « hub » (repo developers-hub), qui réécrit
+# /loic-truchot/projects/butterfly-gpt/* vers l'URL onrender.com de CE service.
+# D'où le build dans un dossier qui reproduit le chemin public : le même chemin
+# marche ici et derrière le hub.
 # Push sur `main` => redeploy auto. Static site = free tier (TLS + CDN inclus).
 services:
   - type: web
@@ -15,11 +19,20 @@ services:
     # (microgpt-ts/embeddings, …). `vp` est dispo via node_modules/.bin.
     buildCommand: pnpm install --frozen-lockfile && pnpm --filter microgpt-ts run build && pnpm --filter @vp-monorepo-butterfly-gpt/butterfly-gpt run build:render
     staticPublishPath: presentations/butterfly-gpt/dist
+    # Ancienne adresse du deck, gardée uniquement pour rediriger les liens déjà
+    # partagés (voir routes).
     domains:
       - slides.gods.academy
-    # Fallback SPA : les deep-links Slidev (/microgpt-ts/3, /microgpt-ts/presenter…)
-    # retombent sur l'index. Render ne réécrit pas si le fichier existe (assets OK).
     routes:
+      # Fallback SPA : les deep-links Slidev (…/fr/3, …/presenter…) retombent
+      # sur l'index. Render ne réécrit pas si le fichier existe (assets OK).
       - type: rewrite
+        source: /loic-truchot/projects/butterfly-gpt/*
+        destination: /loic-truchot/projects/butterfly-gpt/index.html
+      # Ancienne adresse slides.gods.academy/microgpt-ts/… → nouvelle adresse.
+      - type: redirect
         source: /microgpt-ts/*
-        destination: /microgpt-ts/index.html
+        destination: https://developers.gods.academy/loic-truchot/projects/butterfly-gpt/*
+      - type: redirect
+        source: /microgpt-ts
+        destination: https://developers.gods.academy/loic-truchot/projects/butterfly-gpt/

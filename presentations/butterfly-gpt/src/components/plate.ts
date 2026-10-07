@@ -3,7 +3,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // Remplace l'ancien <Plate> Vue. Image à sa taille naturelle (plafond
 // `max-height`), cadre encré. On résout la base du chemin nous-mêmes via
-// `withBase` (compatible sous-chemin `/microgpt-ts/` en prod ET racine en dev) —
+// `withBase` (compatible sous-chemin `/loic-truchot/projects/butterfly-gpt/` en prod ET racine en dev) —
 // exactement comme le faisait le composant Vue. Usage :
 //   <bgpt-plate src="/comic-dream.jpg" max-height="40vh" />
 import { withBase } from "../../lib/asset.js";

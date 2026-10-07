@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "slidev --remote --port 11117",
     "build": "slidev build",
-    "build:render": "slidev build --base /microgpt-ts/ --out dist/microgpt-ts",
+    "build:render": "slidev build --base /loic-truchot/projects/butterfly-gpt/ --out dist/loic-truchot/projects/butterfly-gpt",
     "export": "slidev export",
     "test": "vp test",
     "test:e2e": "vp run -F microgpt-ts build && playwright test -c tests-e2e/playwright.config.ts",

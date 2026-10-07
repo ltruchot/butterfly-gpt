@@ -7,7 +7,7 @@ entraînée sur ~5 904 noms de papillons.
 - `packages/microgpt-ts` : le GPT en 13 briques commentées (`vp run train`)
 - `apps/demos` : les démos interactives (Hono + Datastar)
 - `presentations/butterfly-gpt` : les slides du MOOC, en ligne sur
-  [slides.gods.academy/microgpt-ts](https://slides.gods.academy/microgpt-ts)
+  [developers.gods.academy/loic-truchot/projects/butterfly-gpt](https://developers.gods.academy/loic-truchot/projects/butterfly-gpt/)
 
 ## Développement
 

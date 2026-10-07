@@ -341,7 +341,7 @@ export const en: Dict = {
   bibliographie: {
     title: "Bibliography",
     slidesOnline:
-      'These slides are online at <a href="https://slides.gods.academy/microgpt-ts/en">https://slides.gods.academy/microgpt-ts/en</a>',
+      'These slides are online at <a href="https://developers.gods.academy/loic-truchot/projects/butterfly-gpt/en">https://developers.gods.academy/loic-truchot/projects/butterfly-gpt/en</a>',
     sfxSource: "The source",
     source:
       '<div>Karpathy\'s <strong><a href="https://karpathy.github.io/2026/02/12/microgpt/">microgpt article</a></strong></div><div class="mt-1">The <strong><a href="https://gist.github.com/karpathy/8627fe009c40f57531cb18360106ce95">original code gist</a></strong></div><div class="mt-1"><strong><a href="https://github.com/iamyb/microgpt-excel">microgpt-excel</a></strong> — the same GPT, cell by cell, in a spreadsheet</div><div class="mt-2">The <strong><a href="https://github.com/ltruchot/butterfly-gpt">butterfly-gpt source</a></strong> and these slides</div>',

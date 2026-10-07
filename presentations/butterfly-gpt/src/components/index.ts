@@ -36,7 +36,7 @@ const BGPT = {
   deriveePartielle,
   chaineRamifiee,
   t: (key: string): string => resolve(domLang(), key),
-  // Résout un asset public en tenant compte de la base path (`/microgpt-ts/` en
+  // Résout un asset public en tenant compte de la base path (`/loic-truchot/projects/butterfly-gpt/` en
   // prod) — pendant de `$asset`, mais appelable dans un bloc `v-pre` Datastar où
   // Vue ne compile pas (`data-attr:href="window.bgpt.asset('/x.json')"`).
   asset: (path: string): string => withBase(path),
