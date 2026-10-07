@@ -1,6 +1,6 @@
 ---
 name: Playwright E2E (Hono + SSE + Datastar)
-description: Tests E2E pour apps Hono qui font du SSE + Datastar morph. Setup `webServer` Playwright + `vp dev`, attente du handshake SSE avant interaction, assertions sur le morph (poll + getByTestId), guard "zéro erreur Datastar runtime". Adapté du skill playwright-debug de gods-monorepo.
+description: Tests E2E pour apps Hono qui font du SSE + Datastar morph. Setup `webServer` Playwright + `vp dev`, attente du handshake SSE avant interaction, assertions sur le morph (poll + getByTestId), guard "zéro erreur Datastar runtime". Adapté d'un skill playwright-debug antérieur.
 globs:
   - "apps/**/tests-e2e/**/*"
   - "apps/**/tests-e2e/playwright.config.ts"

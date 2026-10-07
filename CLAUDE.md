@@ -138,7 +138,7 @@ Si le code passe au type-check mais qu'une URL/route/asset ne pointe plus au bon
 
 > Cette règle prime sur la concision : préférer un message un peu plus long avec la trace de `vp check` / `vp test` à un "✅ fait" qui se révèle faux.
 
-## Règles qualité agents (importées de gods-monorepo, adaptées à notre stack)
+## Règles qualité agents (adaptées à notre stack)
 
 Garde-fous comportementaux qui font la différence sur la qualité. Ils
 renforcent — sans les dupliquer — la « Règle de fidélité » et la « Règle d'or »

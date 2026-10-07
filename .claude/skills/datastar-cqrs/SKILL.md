@@ -1,6 +1,6 @@
 ---
 name: Datastar CQRS (TypeScript / Hono)
-description: Datastar v1.0.1 côté navigateur + Hono côté serveur. Architecture CQRS stricte : POST = command (ACK 200, jamais de patch), GET /subscribe = SSE long-lived qui pousse TOUS les morphs. Adapté de gods-monorepo (Go templ) pour ce monorepo TS. Lire avant de toucher à un attribut data-*, une route SSE, ou un fat-morph.
+description: Datastar v1.0.1 côté navigateur + Hono côté serveur. Architecture CQRS stricte : POST = command (ACK 200, jamais de patch), GET /subscribe = SSE long-lived qui pousse TOUS les morphs. Adapté d'une version Go templ pour ce monorepo TS. Lire avant de toucher à un attribut data-*, une route SSE, ou un fat-morph.
 paths:
   - 'apps/**/src/**/*.{ts,tsx}'
   - 'apps/**/public/datastar.js'
@@ -10,7 +10,7 @@ paths:
 
 > L'API Datastar elle-même (attributs, modificateurs, options des actions, événements SSE, morph) est dans la skill partagée `datastar`, installée par `qol-mini` et jamais éditée ici. Ce fichier porte l'architecture de ce dépôt : CQRS strict, fat morph, Hono.
 
-> Fork conceptuel du skill `datastar-sse` du gods-monorepo, retaillé pour : Node.js + Hono + JSX serveur (`hono/jsx`), pas de templ Go, pas de NATS. Utilise le SDK officiel [`@starfederation/datastar-sdk`](https://github.com/starfederation/datastar-typescript). Le bundle client (`datastar.js` v1.0.1) est servi statiquement depuis `public/`.
+> Fork conceptuel d'un skill `datastar-sse` écrit pour Go templ + NATS, retaillé pour : Node.js + Hono + JSX serveur (`hono/jsx`), pas de templ Go, pas de NATS. Utilise le SDK officiel [`@starfederation/datastar-sdk`](https://github.com/starfederation/datastar-typescript). Le bundle client (`datastar.js` v1.0.1) est servi statiquement depuis `public/`.
 
 ## ⚠️ Landmines récurrentes — LIRE AVANT TOUT
 
