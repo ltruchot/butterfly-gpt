@@ -1,237 +1,112 @@
 ---
-name: Vite+ (vp)
-description: CLI unifié du monorepo. Toujours préférer `vp <commande>` à `pnpm/npm/yarn/bun` ou aux binaires Vite/Vitest directs — Vite+ embarque runtime, package manager et tooling (Vite 8 + Rolldown + Vitest + Oxlint + Oxfmt + tsgolint + Vite Task) derrière une seule porte d'entrée.
-globs:
-  - "package.json"
-  - "vite.config.ts"
+name: vp
+description: Vite+ (vp) in a pnpm workspace. Run `vp <command>` instead of pnpm, npm, vite, vitest, oxlint or oxfmt directly. Use before touching package.json, vite.config.ts or pnpm-workspace.yaml, and before running install, dev, build, test, lint or a task.
+paths:
+  - "**/package.json"
+  - "**/vite.config.ts"
   - "pnpm-workspace.yaml"
 ---
 
-# Vite+ — réflexes de base
+# Vite+ (`vp`)
 
-Docs locales : `node_modules/vite-plus/docs/guide/`. En ligne : <https://viteplus.dev/guide/>.
+Written against Vite+ 1.0: Vite 8, Rolldown, Vitest 5, Oxlint, Oxfmt, tsdown, Vite Task.
+`vp --version` and `vp toolchain` print what this project runs.
 
-## Règle #1 — TOUJOURS `vp <commande>`, jamais l'outil sous-jacent
+The docs that match the installed version are local: `node_modules/vite-plus/docs/guide/` and
+`node_modules/vite-plus/docs/config/`. Read the page before guessing a flag. Online:
+<https://viteplus.dev/guide/>.
 
-Vite+ détecte le package manager du workspace (ici **pnpm** via `pnpm-workspace.yaml`) et délègue automatiquement. Utiliser directement `pnpm`, `vitest`, `vite`, `oxlint`, `tsc` est :
+## Rule 1: `vp <command>`, never the tool underneath
 
-- moins ergonomique (vp normalise les flags),
-- moins rapide (Vite Task cache les résultats),
-- incohérent avec la configuration du monorepo (lockfile, registry, peer rules définis dans `pnpm-workspace.yaml`).
+| Task | Command | Notes |
+|---|---|---|
+| Install | `vp install` | CI: `vp install --frozen-lockfile`, which fails if the lockfile would change |
+| Add, remove a dependency | `vp -C apps/demos add <pkg>` (`-D` dev, `-E` exact), `vp remove <pkg>` | then move the version to the catalog, see below |
+| Dev server | `vp -C apps/demos dev` | <http://localhost:11111> |
+| Production build | `vp -C apps/demos build` | apps; libraries build with `vp pack` |
+| Serve the build | `vp -C apps/demos preview` | after `vp build` |
+| Format, lint, types | `vp check`, `vp check --fix` | from the root, whole workspace; `vp check --fix <file>` for one file |
+| Tests | `vp -C apps/demos test` | runs once; `vp test watch` watches; `vp test run --coverage` |
+| A script or a task | `vp run <name>`, short form `vpr <name>` | `package.json` script or `run.tasks` entry |
+| A one-off binary | `vp exec <bin>` (local), `vp dlx <pkg>` or `vpx <pkg>` (downloaded) | `vp dlx` adds no dependency |
+| Versions | `vp toolchain`, `vp why <pkg>`, `vp outdated`, `vp pm view <pkg> version` | `vp why` shows the package-manager graph only |
 
-Si on a besoin d'un comportement bas-niveau spécifique au PM, le passe-plat existe : `vp pm <cmd>` — **mais c'est une allowlist** (prune, pack, list, view, publish, owner, cache, config, login, logout, whoami, token, audit, dist-tag, deprecate, search, rebuild, fund, ping). Pour les commandes hors-liste (typiquement `pnpm patch`/`patch-commit`), utiliser le pnpm embarqué de vp : `$HOME/.vite-plus/package_manager/pnpm/<version>/pnpm/bin/pnpm <cmd>`. La version dispo se voit avec `vp --version`.
+- `vp build` is the builtin and cannot be overridden; `vp run build` is the script or task of
+  that name. Same for `dev`, `test`, `preview`, `lint`, `fmt`, `check`, `pack`.
+- `vp pm <subcommand>` forwards a fixed list to the package manager (`view`, `list`, `audit`,
+  `cache`, `config`, `publish`, `pack`, `ci`, `approve-builds`, `patch`, ...), not anything.
+  Extra arguments go after `--`. `vp pm --help` prints the list.
 
-## Commandes essentielles
+## Targeting a package
 
-| Tâche                           | Commande                                                        | Notes                                                                                                                  |
-| ------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Installer les deps du workspace | `vp install`                                                    | Détecte pnpm, lit le lockfile. Pour le root explicitement : `vp install -w`.                                           |
-| Ajouter une dep                 | `vp add <pkg>` (`-D` devDep, `-O` optional, `--save-peer` peer) | Met à jour `package.json` + lockfile.                                                                                  |
-| Retirer une dep                 | `vp remove <pkg>`                                               | Idem.                                                                                                                  |
-| Lancer le dev server            | `vp dev`                                                        | Vite dev server natif, HMR. Config dans `vite.config.ts` `server:` block.                                              |
-| Build de prod                   | `vp build`                                                      | Rolldown + Vite 8. Output `dist/`. `--watch`, `--sourcemap` disponibles.                                               |
-| Servir le build                 | `vp preview`                                                    | Après `vp build`.                                                                                                      |
-| Lancer un script `package.json` | `vp run <script>` (alias `vpr`)                                 | **NE PAS** confondre avec `vp build` (qui est le builtin) — pour exécuter un script `"build"` custom : `vp run build`. |
-| Format + lint + typecheck       | `vp check`                                                      | Oxfmt + Oxlint + tsgolint en parallèle. `--fix` pour auto-fix.                                                         |
-| Tests unitaires                 | `vp test`                                                       | Vitest, single run par défaut. `vp test watch` pour le mode watch. `vp test run --coverage`.                           |
-| Test d'un fichier précis        | `vp test tests/foo.test.ts`                                     | Path positional.                                                                                                       |
+- `vp -C <dir> <command>` runs any command as if started in `<dir>`. Use it for builtins.
+- A positional directory (`vp dev apps/demos`) only sets Vite's `root` and exists on `dev`,
+  `build` and `preview` only. Prefer `-C`.
+- `vp test <arg>` filters test files, and `vp pack <arg>` names entry files: neither targets a
+  package.
+- At the workspace root, a bare `vp dev`, `vp build`, `vp preview` or `vp pack` asks which
+  package, and in a non-interactive shell exits 1 with `needs a target package`.
+  `defaultPackage` in the root `vite.config.ts` fixes the target.
+- `-F`, `--filter` selects packages on `vp run`, `vp exec` and the package-manager commands
+  only. On `vp dev` and `vp build`, `-f` filters debug logs.
 
-## Workspace (monorepo)
+## `vp run`
 
-```bash
-# Cible un package par nom (via le script "build" du package.json)
-vp run @my/app#build
-vp run --filter @my/app build
+- `-r` every package, `-t` this package and its dependencies, `-F <pattern>` pnpm filter
+  syntax, `-w` the workspace root, `<package>#<task>` one task of one package.
+- `--parallel` drops dependency ordering. `--cache` and `--no-cache` override the cache.
+- A task name lives in `vite.config.ts` (`run.tasks`) or in `package.json`, never in both.
+- Tasks are cached by default, scripts are not. Set `cache: false` on a dev server and on
+  anything that must always run.
+- A task runs in a clean environment: only a short list (`PATH`, `HOME`, `CI`, ...) passes.
+  Another variable goes in `cache.env` (part of the cache key) or `cache.untrackedEnv`.
+- A command string is read by a shell. `&&` chains are split into sub-tasks cached one by
+  one. An array `command` is a sequence of commands, not an argument vector.
 
-# Récursif sur tous les packages (ordre des deps)
-vp run -r build
+## Configuration: one `vite.config.ts`
 
-# Transitif : un package + ses dépendances
-vp run -t @my/app#build
+- `import { defineConfig } from "vite-plus"` in config files. Other files keep
+  `from "vite"`. Tests import from `vite-plus/test`.
+- Blocks: `run` (with `run.tasks`), `fmt`, `lint`, `check`, `test`, `pack`, `staged`, `create`,
+  plus `defaultPackage`, beside Vite's own `server`, `build`, `preview`, `plugins`.
+- No `vitest.config.ts`, `tsdown.config.ts`, `.oxlintrc.json` or `.oxfmtrc.json`.
+- Keep `lint` and `fmt` in the root config. `vp check` reads the root blocks only. A rule for
+  one package goes in `lint.overrides` or `fmt.overrides`, with globs relative to the root.
+- Type checks run in `vp check` when `lint.options.typeAware` and `lint.options.typeCheck`
+  are on.
+- Vitest collects `*.test.*` and `*.spec.*`. When Playwright specs share the repo, set
+  `test.include` or name them `*.e2e.ts`.
 
-# Parallèle (ignore l'ordre des deps)
-vp run -r --parallel dev
-```
+## Dependencies in a pnpm workspace
 
-> ⚠️ **`--filter`/`-F` n'existe QUE sur `vp run`**, pas sur les builtins (`vp dev`, `vp build`, `vp test`…). Pour cibler un package avec un builtin, passer le **chemin positionnel** : `vp dev apps/demos`. Erreur typique : `vp -F demos dev` → `Unexpected argument '-F'`.
+- Shared versions live in `catalog:` in `pnpm-workspace.yaml`; a package lists
+  `"<dep>": "catalog:"`, a workspace dependency `"workspace:*"`.
+- `minimumReleaseAge` is in minutes and defaults to 1440 since pnpm 11. A release younger
+  than that fails to install: take the previous version, or list the package in
+  `minimumReleaseAgeExclude` when the reason is known.
+- Exact versions: `vp add -E`, or `savePrefix: ""`.
+- `vite-plus` aliases `vite` and pins `vitest` through `overrides`. Bump the three together:
+  `node_modules/vite-plus/docs/guide/upgrade-project.md`.
 
-Dans ce monorepo (`pnpm-workspace.yaml`) : `apps/*`, `packages/*`, `tools/*`. Les deps `workspace:*` (ex. `"microgpt-ts": "workspace:*"`) sont résolues localement.
+## Node and the package manager
 
-### Lancer les apps de ce monorepo
+- Node resolves from the nearest of, in order: `.node-version`, `devEngines.runtime`,
+  `engines.node`, `.nvmrc`. `vp env pin <version>` writes the pin, `vp env current` shows
+  what resolved and from where, `vp env doctor` diagnoses.
+- The package manager comes from `packageManager`, then `devEngines.packageManager`. With
+  both, `packageManager` drives and a mismatch warns.
+- `vp env`, `vp node <file>`, `vp upgrade` need the global CLI. `node: command not found`
+  means no global Node: `vp node <file>`.
 
-| Package                                       | Commande                                                              | URL                             |
-| --------------------------------------------- | --------------------------------------------------------------------- | ------------------------------- |
-| `apps/demos` (multi-démos Hono+Datastar)      | `vp dev apps/demos`                                                   | http://localhost:11111/autograd |
-| `presentations/light-icons-showcase` (Slidev) | `vp run --filter @vp-monorepo-butterfly-gpt/light-icons-showcase dev` | http://localhost:11115          |
-| `presentations/butterfly-gpt` (Slidev)        | `vp run --filter @vp-monorepo-butterfly-gpt/butterfly-gpt dev`        | http://localhost:11117          |
+## Git hooks
 
-Les apps Vite/Hono passent par le builtin `vp dev <chemin>` (config `vite.config.ts`). Les decks Slidev doivent passer par `vp run --filter <pkg> dev` car le script `package.json` contient les flags CLI Slidev requis (`--remote --port <n>`) — Slidev ignore `server.*` de `vite.config.ts`.
+`"prepare": "vp config"` installs the dispatcher in `.vite-hooks/_` (ignored by git) and sets
+`core.hooksPath`. It does not write the hook: `.vite-hooks/pre-commit` is a committed file that
+runs `vp staged`, which reads the `staged` block of the root `vite.config.ts`.
+`vp hooks status` shows the state. Never `git commit --no-verify`.
 
-Tableau autoritatif des ports : `CLAUDE.md` (section _Dev server convention_).
+## More
 
-## Dev server — bonne pratique Cursor/VS Code + WSL
-
-**Règle d'or** : un app = un port unique stable, bindé sur toutes les interfaces (`0.0.0.0`), `strictPort: true`. Sans ça, Cursor/VS Code en WSL :
-
-1. Ne peut pas forward un binding `[::1]` (IPv6 loopback) → ctrl-click sur l'URL du terminal ouvre un port remappé qui répond "connection refused".
-2. Auto-increment silencieux sur collision si `strictPort` absent → l'URL affichée ne correspond pas au port forwardé.
-
-### Vite apps — `vite.config.ts`
-
-```ts
-import { defineConfig } from "vite";
-
-export default defineConfig({
-  server: {
-    host: true, // bind 0.0.0.0, pas [::1]
-    port: 11111, // unique par app (registre dans CLAUDE.md)
-    strictPort: true, // fail loud, jamais d'auto-increment
-  },
-});
-```
-
-### Slidev decks — flags CLI uniquement
-
-**Slidev IGNORE le bloc `server.*` de `vite.config.ts`**. Toujours passer par les flags :
-
-```json
-"dev": "slidev --remote --port 11115"
-```
-
-- `--remote` = bind `0.0.0.0` (`--bind` y default à `0.0.0.0`).
-- `--port` = port stable (Slidev auto-incrémente sans).
-- `--open` à éviter en WSL : tente de spawn un browser interne, dies en `ENOEXEC`. Cliquer le lien affiché suffit (Cursor/VS Code gère le forward).
-
-### Registre des ports
-
-Le tableau autoritatif est dans `CLAUDE.md` du repo, section _Dev server convention_. À chaque nouveau package, prendre le port libre suivant à partir de 11111 et l'ajouter au tableau dans le même commit.
-
-### Diagnostic rapide
-
-```bash
-ss -tlnp | grep <port>
-# OK   : 0.0.0.0:<port>   <- joignable par le forwarder Cursor
-# KO   : [::1]:<port>     <- host:true / --remote manquant
-# KO   : un autre pid     <- dev server fantôme, kill <pid> puis relancer
-```
-
-## Configuration — tout dans `vite.config.ts`
-
-**Une seule source de vérité** pour Vite, Vitest, Oxlint, Oxfmt, tasks :
-
-```ts
-import { defineConfig } from "vite-plus";
-
-export default defineConfig({
-  plugins: [
-    /* Vite plugins */
-  ],
-  server: { port: 5173, strictPort: true },
-  build: {
-    /* options */
-  },
-  test: { include: ["tests/**/*.test.ts"] }, // Vitest config
-  lint: { options: { typeAware: true, typeCheck: true } },
-  fmt: {},
-  run: {
-    tasks: {
-      /* Vite Task */
-    },
-  },
-});
-```
-
-**À éviter** : `vitest.config.ts`, `.oxlintrc.json`, fichiers de config séparés — la doc le déconseille explicitement (« we do not recommend using `vitest.config.ts` with Vite+ »).
-
-## Caching `vp run`
-
-Les scripts `package.json` ne sont PAS cachés par défaut. Pour activer :
-
-```bash
-vp run --cache build
-```
-
-Ou définir une `tasks` dans `vite.config.ts` (cachées par défaut, supportent `dependsOn`, `env`, …).
-
-## Pièges classiques
-
-| Symptôme                                                                                                                               | Cause                                                                                                                                  | Remède                                                                                                                                                                                                                                                                                                                                   |
-| -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `vp dev` ne démarre rien, sort instantanément                                                                                          | Pas de `index.html` ni `vite.config.ts` avec `entry`                                                                                   | Pour une app **serveur** (Hono, Express…) il faut un plugin du type `@hono/vite-dev-server` qui pointe sur ton entry TS.                                                                                                                                                                                                                 |
-| `vp run build` exécute le builtin au lieu de mon script                                                                                | `vp build` (sans `run`) lance toujours le build Vite natif                                                                             | Pour le script `"build"` du `package.json` : utiliser `vp run build` (ou `vpr build`).                                                                                                                                                                                                                                                   |
-| `vp test` ne stoppe pas                                                                                                                | Mode watch par accident                                                                                                                | Sans flag, `vp test` fait un run unique. Pour watch : `vp test watch`.                                                                                                                                                                                                                                                                   |
-| Conflit lockfile en CI                                                                                                                 | Manque de `--frozen-lockfile`                                                                                                          | `vp install --frozen-lockfile` en CI.                                                                                                                                                                                                                                                                                                    |
-| Tests "vite-plus/test" introuvables                                                                                                    | Mauvais import                                                                                                                         | Importer `expect`/`test` depuis `"vite-plus/test"` (alias normalisé), pas `"vitest"` directement.                                                                                                                                                                                                                                        |
-| `vp test` plante sur un spec Playwright (`test.describe() not expected here`)                                                          | `vp test` (Vitest) auto-découvre `**/*.{test,spec}.ts` → il ramasse AUSSI les `*.spec.ts` E2E Playwright                               | Nommer les E2E `*.e2e.ts` + `testMatch: "**/*.e2e.ts"` (le deck fait ça), OU exclure : `test: { exclude: [..., "**/tests-e2e/**"] }`. ⚠️ L'exclusion doit être dans le `vite.config.ts` **RACINE** pour couvrir `vp test` lancé depuis la racine (l'exclusion par-package n'y suffit pas — vécu à l'audit 2026-07 : 12 fichiers rouges). |
-| Un `vp run`/`vp build` **spawné au runtime** sous une tâche `vp run` échoue (exit 1 muet, ou `vp build` qui résout la mauvaise racine) | L'enfant hérite du marqueur d'env `VP_COMMAND` du task-runner ; seul le nesting **dans un script** package.json est inliné et supporté | Jamais de `vp run` dans un `webServer.command` Playwright (ni tout autre spawn runtime) : build dans le SCRIPT (`vp run -F <pkg> build && playwright test …`), binaire direct (`npx slidev …`) ou `vp dev` (qui, lui, marche imbriqué) dans le webServer. Cf. CLAUDE.md « Piège vp générique ».                                          |
-| Un deck **Slidev** a besoin d'options du compilateur Vue (ex. `isCustomElement` pour des web components)                               | Slidev ignore `server.*` mais LIT un `vite.config.ts` de deck                                                                          | Mettre les options sous la clé `slidev` : `export default { slidev: { vue: { template: { compilerOptions: { isCustomElement: t => t.startsWith('bgpt-') } } } } }` (vérifié dans `@slidev/cli` : `ViteSlidevPlugin(opts, config.slidev)`).                                                                                               |
-
-## Checklist d'arrivée sur le repo
-
-```bash
-vp install                            # installer / sync deps
-vp check                              # format + lint + types passent ?
-vp test                               # tests unitaires passent ?
-vp run --filter <pkg> dev             # lancer l'app cible
-```
-
-## IDE Integration (VS Code)
-
-Quand `vp create` ou `vp migrate` scaffoldent un projet, ils écrivent `.vscode/extensions.json` + `.vscode/settings.json`. Si on bootstrap manuellement, ajouter :
-
-**`.vscode/extensions.json`**
-
-```json
-{
-  "recommendations": ["VoidZero.vite-plus-extension-pack"]
-}
-```
-
-Le pack contient deux extensions clés :
-
-- **Oxc** — format + lint en direct via `vp check`
-- **Vitest** — runs unitaires via `vp test`
-
-**`.vscode/settings.json`**
-
-```json
-{
-  "editor.defaultFormatter": "oxc.oxc-vscode",
-  "[javascript]": { "editor.defaultFormatter": "oxc.oxc-vscode" },
-  "[javascriptreact]": { "editor.defaultFormatter": "oxc.oxc-vscode" },
-  "[typescript]": { "editor.defaultFormatter": "oxc.oxc-vscode" },
-  "[typescriptreact]": { "editor.defaultFormatter": "oxc.oxc-vscode" },
-  "oxc.fmt.configPath": "./vite.config.ts",
-  "editor.formatOnSave": true,
-  "editor.formatOnSaveMode": "file",
-  "editor.codeActionsOnSave": { "source.fixAll.oxc": "explicit" },
-  "npm.scriptRunner": "vp"
-}
-```
-
-Notes critiques :
-
-- Les blocs `[language]` sont **obligatoires** : VS Code donne la priorité aux settings user-level `[language]` sur le workspace `editor.defaultFormatter`. Sans eux, un Prettier global re-prend la main silencieusement.
-- `formatOnSaveMode: "file"` est requis car Oxfmt ne supporte **pas** le formatage partiel.
-- `oxc.fmt.configPath` pointe vers `vite.config.ts` (single source of truth — voir section Configuration ci-dessus).
-- `"npm.scriptRunner": "vp"` fait que le panel NPM Scripts de VS Code passe par `vp` (donc bénéficie du cache + workspace awareness). `vp create` l'ajoute, `vp migrate` ne le fait pas (compat équipe).
-
-Zed : voir `node_modules/vite-plus/docs/guide/ide-integration.md` — section similaire.
-
-## Pour aller plus loin
-
-Liste complète des guides dispo localement :
-
-```
-node_modules/vite-plus/docs/guide/
-├── install.md   add.md     remove.md
-├── dev.md       build.md   preview.md
-├── check.md     lint.md    fmt.md
-├── test.md      run.md     cache.md
-├── pack.md      create.md  migrate.md   upgrade.md
-├── ci.md        commit-hooks.md         ide-integration.md
-├── env.md       vpx.md     why.md       troubleshooting.md
-└── implode.md
-```
-
-Cible quand un cas tordu apparaît : `troubleshooting.md` d'abord, puis le guide spécifique de la commande.
+- [references/traps.md](references/traps.md): lint and type errors that recur, a dev server
+  port that stays busy, the editor settings. Read it when a `vp check` error or a port error
+  is not obvious.

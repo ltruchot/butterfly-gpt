@@ -1,0 +1,42 @@
+{
+  "skills": {
+    "datastar": {
+      "answers": {},
+      "files": {
+        "SKILL.md": "fe7abd54c3de223a930febd24d00936e08f43cb16beb556184e261f80347fd22",
+        "references/actions.md": "354d3fd5a15b9c4d6c749da02d8f1b0dbe57ff76fe4f6e99b2e788365f5561bc",
+        "references/attributes.md": "acb52593e7d0328dc88cd79dcd3b7345e9c40d42549ca92f5a94b8ea2706a013",
+        "references/sse.md": "1b38c630461c27d70361fe29c5fdf26c412b8350659bbcecdc4b5059c1219a5c"
+      },
+      "path": ".claude/skills/datastar",
+      "ref": "0.2.0",
+      "renderedHash": "86ae6f19b0698d52814a4efbfab664b7b33d0b6af8664e4263d81fabd983ef2e",
+      "secrets": [],
+      "sha": "local:2912f005d6bf996675a8a04d9435301127c4048f28dc01cad5c7755c8c6b0e8a",
+      "skillPath": "skills/datastar",
+      "source": "qol-mini",
+      "sourceType": "local",
+      "templateHash": "37aab847cae98da787c945b028ee8ab6fccbaad040e942d8696e2e00a8ee3efd"
+    },
+    "vp": {
+      "answers": {
+        "APP_DIR": "apps/demos",
+        "DEV_PORT": "11111"
+      },
+      "files": {
+        "SKILL.md": "58a84816e5b5c8bf5ee4ea669557afcd8a6b7680b3e18b8a15af426e5fbc2e1d",
+        "references/traps.md": "65b615130b2654d824f19a89c1219ea9c69701c5f080fdc52cd7def9f02e99d7"
+      },
+      "path": ".claude/skills/vp",
+      "ref": "0.2.0",
+      "renderedHash": "eb1603a7e2d39dc32d6f5fa1de653c825445024a4179c3d590858c9d76242fb9",
+      "secrets": [],
+      "sha": "local:2912f005d6bf996675a8a04d9435301127c4048f28dc01cad5c7755c8c6b0e8a",
+      "skillPath": "skills/vp",
+      "source": "qol-mini",
+      "sourceType": "local",
+      "templateHash": "6d325df94b70769d372abea49166d557fd0923ca309b1dccfd7926fce278994d"
+    }
+  },
+  "version": 1
+}

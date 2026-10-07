@@ -12,11 +12,25 @@ export default defineConfig({
   // Caches de poids générés (un JSON compact de milliers de nombres par modèle) :
   // hors formateur, sinon Oxfmt les « pretty-print » → un nombre par ligne, taille
   // multipliée. Ce sont des artefacts, pas des sources.
-  fmt: { ignorePatterns: ["presentations/**/*.md", "**/by_seeds/**", "**/by_seeds_hard/**"] },
+  // .claude/skills/{vp,datastar} : gérées par qol-mini (.claude/qol-mini.lock.json),
+  // jamais réécrites ici.
+  fmt: {
+    ignorePatterns: [
+      "presentations/**/*.md",
+      "**/by_seeds/**",
+      "**/by_seeds_hard/**",
+      ".claude/skills/vp/**",
+      ".claude/skills/datastar/**",
+    ],
+  },
   lint: {
     // Fichiers de build Slidev exclus du lint ET du type-check : les imports
     // `.css` n'ont pas de .d.ts. Slidev possède le build de ces fichiers.
-    ignorePatterns: ["presentations/**/styles/**"],
+    ignorePatterns: [
+      "presentations/**/styles/**",
+      ".claude/skills/vp/**",
+      ".claude/skills/datastar/**",
+    ],
     options: { typeAware: true, typeCheck: true },
   },
   test: {

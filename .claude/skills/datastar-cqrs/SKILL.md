@@ -1,12 +1,14 @@
 ---
 name: Datastar CQRS (TypeScript / Hono)
 description: Datastar v1.0.1 côté navigateur + Hono côté serveur. Architecture CQRS stricte : POST = command (ACK 200, jamais de patch), GET /subscribe = SSE long-lived qui pousse TOUS les morphs. Adapté de gods-monorepo (Go templ) pour ce monorepo TS. Lire avant de toucher à un attribut data-*, une route SSE, ou un fat-morph.
-globs:
+paths:
   - 'apps/**/src/**/*.{ts,tsx}'
   - 'apps/**/public/datastar.js'
 ---
 
 # Datastar + CQRS, à la sauce TypeScript / Hono
+
+> L'API Datastar elle-même (attributs, modificateurs, options des actions, événements SSE, morph) est dans la skill partagée `datastar`, installée par `qol-mini` et jamais éditée ici. Ce fichier porte l'architecture de ce dépôt : CQRS strict, fat morph, Hono.
 
 > Fork conceptuel du skill `datastar-sse` du gods-monorepo, retaillé pour : Node.js + Hono + JSX serveur (`hono/jsx`), pas de templ Go, pas de NATS. Utilise le SDK officiel [`@starfederation/datastar-sdk`](https://github.com/starfederation/datastar-typescript). Le bundle client (`datastar.js` v1.0.1) est servi statiquement depuis `public/`.
 
@@ -37,7 +39,7 @@ app.post("/next", (c) => {
 **3. `data-bind` : forme-clé OU forme-valeur, jamais les deux.**
 
 - ✅ `<input data-bind:email />` (auto-crée `$email`)
-- ✅ `<input data-bind="$email" />`
+- ✅ `<input data-bind="email" />` (forme-valeur : le nom nu, sans `$`)
 - ❌ `<input data-bind:email="$email" />` → `KeyAndValueProvided`, parse abort, casse tous les `data-*` voisins.
 
 **4. Stable `id` sur chaque élément morphable.** Idiomorph matche par `id` ; sans id, l'élément est recréé → focus perdu, listeners droppés.
@@ -140,7 +142,7 @@ Doc : <https://data-star.dev/reference/attributes>.
 
 ## Actions HTTP — `@get/@post/@put/@patch/@delete`
 
-Toutes les actions envoient automatiquement **tous les signaux non-souligné** dans le body. Ne JAMAIS passer le payload à la main.
+Toutes les actions envoient automatiquement **tous les signaux non-souligné** : dans le body JSON pour `@post/@put/@patch`, dans le paramètre de query `datastar` pour `@get` et `@delete`. Ne JAMAIS passer le payload à la main.
 
 ```html
 <!-- ❌ payload manuel -->
@@ -169,7 +171,7 @@ app.post("/submit", async (c) => {
 
 ## SSE — wire format officiel
 
-Trois événements canoniques. Le SDK les émet, mais il faut connaître la forme pour debug réseau.
+Deux événements, et seulement deux. Le SDK les émet, mais il faut connaître la forme pour debug réseau.
 
 ```
 event: datastar-patch-elements
@@ -177,10 +179,9 @@ data: elements <main id="app">…morphé in place…</main>
 
 event: datastar-patch-signals
 data: signals {"count": 42, "user": {"name": "Alice"}}
-
-event: datastar-execute-script
-data: script console.log('hello from server')
 ```
+
+Il n'y a pas d'événement `datastar-execute-script` en v1 : `executeScript` du SDK envoie un `datastar-patch-elements` qui ajoute un `<script>` à `body`.
 
 Tous les événements **terminent par deux \n** — le SDK s'en occupe.
 
@@ -252,7 +253,7 @@ Pour un state distribué (multi-process, scale-out) : remplacer le `Set` par un 
 | ------------------------------------------------------------------ | --------------------------------------------------------------- |
 | `c.html(<App />)` dans une route POST                              | Renvoyer 200 vide ; pousser via SSE                             |
 | `<button data-on-click=…>` (hyphen)                                | `data-on:click=…` (colon)                                       |
-| `data-bind:foo="$foo"`                                             | `data-bind:foo` OU `data-bind="$foo"` (pas les deux)            |
+| `data-bind:foo="$foo"`                                             | `data-bind:foo` OU `data-bind="foo"` (pas les deux)             |
 | Pas d'`id` sur élément morphé                                      | `id` stable ; sans `id`, idiomorph recrée                       |
 | Subscriber jamais retiré sur abort                                 | `onAbort` + `onError` qui `unsubscribe()`                       |
 | `subscribers.forEach(s => s.patch(…))` qui plante au 1er flux mort | `for…of` + `try/catch` + `subscribers.delete(s)`                |

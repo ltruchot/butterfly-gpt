@@ -1,3 +1,10 @@
 {
-  "ignorePatterns": ["**/public/**", "**/dist/**", "**/test-results/**", "**/playwright-report/**"]
+  "ignorePatterns": [
+    "**/public/**",
+    "**/dist/**",
+    "**/test-results/**",
+    "**/playwright-report/**",
+    ".claude/skills/vp/**",
+    ".claude/skills/datastar/**"
+  ]
 }
