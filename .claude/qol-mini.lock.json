@@ -24,18 +24,19 @@
         "DEV_PORT": "11111"
       },
       "files": {
-        "SKILL.md": "58a84816e5b5c8bf5ee4ea669557afcd8a6b7680b3e18b8a15af426e5fbc2e1d",
-        "references/traps.md": "65b615130b2654d824f19a89c1219ea9c69701c5f080fdc52cd7def9f02e99d7"
+        "SKILL.md": "0e7db337cf13eaa82581f93ec4e33e84133c6031eab75cedeff126fd25caaecc",
+        "references/editor.md": "f36d2bab6581749b7fdf1699bfa7a0837c479ef9685f92ea593e1ef2482c882a",
+        "references/traps.md": "0b2b9726d058005f8c23fcddfe862713283baf984fe741fd2ad418f39ca52f31"
       },
       "path": ".claude/skills/vp",
-      "ref": "0.2.0",
-      "renderedHash": "eb1603a7e2d39dc32d6f5fa1de653c825445024a4179c3d590858c9d76242fb9",
+      "ref": "0.6.0",
+      "renderedHash": "69448ed896292aa7b9ad4288e4b8cab0a875c7dbfeb8d418752b0eeb9aca4012",
       "secrets": [],
-      "sha": "local:2912f005d6bf996675a8a04d9435301127c4048f28dc01cad5c7755c8c6b0e8a",
+      "sha": "local:35ad5b6baec989da6c0f4b4bad5abf04c47f7d3074d4963d9fdef7c273c77268",
       "skillPath": "skills/vp",
       "source": "qol-mini",
       "sourceType": "local",
-      "templateHash": "6d325df94b70769d372abea49166d557fd0923ca309b1dccfd7926fce278994d"
+      "templateHash": "c069d65775bf2c66d1d1a6f33f4faa6bc6fcde2af8fb2fc43312faa2f4fc4b80"
     }
   },
   "version": 1
