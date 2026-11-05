@@ -22,7 +22,7 @@ export default defineConfig({
   ],
 
   // Lance `vp dev` avant les tests si rien n'écoute déjà sur :11111
-  // (registre des ports : CLAUDE.md → Dev server convention).
+  // (registre des ports : AGENTS.md → Dev server convention).
   webServer: {
     command: "vp dev",
     cwd: "..",

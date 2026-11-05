@@ -1,4 +1,17 @@
 {
+  "harmonize": {
+    "artifacts": {},
+    "from": "claude",
+    "ops": [
+      {
+        "op": "mv",
+        "path": "CLAUDE.md",
+        "to": "AGENTS.md"
+      }
+    ],
+    "rules": "pure",
+    "version": 1
+  },
   "skills": {
     "datastar": {
       "answers": {},

@@ -12,7 +12,7 @@ import { defineConfig, devices } from "@playwright/test";
 // ⚠️ Ce deck est STATIQUE (pas de serveur SSE comme apps/demos) : pas de
 // handshake `/subscribe` à attendre — juste naviguer vers une slide et agir.
 
-const PORT = 11117; // cf. registre des ports (CLAUDE.md)
+const PORT = 11117; // cf. registre des ports (AGENTS.md)
 const BASE = `http://localhost:${PORT}`;
 
 export default defineConfig({
@@ -48,7 +48,7 @@ export default defineConfig({
     // imbriqué en vraie tâche. Ici en revanche, Playwright spawn la commande
     // comme un process enfant au runtime : un `vp run`/`vp build` imbriqué
     // sous la tâche `vp run test:e2e` échoue (même famille que le piège
-    // « vp node dans une tâche » de CLAUDE.md) → slidev direct, sans vp.
+    // « vp node dans une tâche » de AGENTS.md) → slidev direct, sans vp.
     // Slidev est lent à démarrer (compile la 1re slide) → timeout généreux.
     command: "npx slidev --remote --port 11117",
     cwd: "..",

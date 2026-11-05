@@ -31,7 +31,7 @@ flags CLI Slidev requis (`--remote --port <n>`).
 
 ## Registre des ports
 
-Le tableau qui fait foi est dans `CLAUDE.md`, section _Dev server convention_. À chaque
+Le tableau qui fait foi est dans `AGENTS.md`, section _Dev server convention_. À chaque
 nouveau package, prendre le port libre suivant à partir de 11111 et l'ajouter au tableau dans
 le même commit.
 

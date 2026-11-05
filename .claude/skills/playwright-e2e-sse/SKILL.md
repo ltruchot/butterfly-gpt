@@ -47,7 +47,7 @@ Ajouter au `package.json` :
 
 > ⚠️ **Jamais de `vp run` dans `webServer.command`** : Playwright le spawn au
 > runtime SOUS la tâche `vp run test:e2e` → échec (marqueur d'env
-> `VP_COMMAND`, cf. CLAUDE.md « Piège vp générique »). Un éventuel build
+> `VP_COMMAND`, cf. AGENTS.md « Piège vp générique »). Un éventuel build
 > préalable va dans le SCRIPT `test:e2e` (`vp run -F <pkg> build && playwright
 > test …` — là, Vite Task inline correctement) ; le webServer lance un binaire
 > direct (`npx slidev --remote --port <n>`) ou `vp dev`, qui fonctionne, lui.
@@ -57,7 +57,7 @@ Ajouter au `package.json` :
 ```ts
 import { defineConfig, devices } from "@playwright/test";
 
-const PORT = 11111; // ← cf. registre dans CLAUDE.md (Dev server convention)
+const PORT = 11111; // ← cf. registre dans AGENTS.md (Dev server convention)
 const BASE = `http://localhost:${PORT}`;
 
 export default defineConfig({
@@ -230,7 +230,7 @@ page.on("response", (r) => {
 
 ## Pièges spécifiques au monorepo (WSL/Cursor)
 
-1. **Port stable obligatoire** : convention `host: true, port: 1111X, strictPort: true` dans `vite.config.ts`. Cf. skill `vp` (section IDE Integration) et `CLAUDE.md` du repo (Dev server convention). Sans ça, le port peut être remappé par Cursor → Playwright tape à côté.
+1. **Port stable obligatoire** : convention `host: true, port: 1111X, strictPort: true` dans `vite.config.ts`. Cf. skill `vp` (section IDE Integration) et `AGENTS.md` du repo (Dev server convention). Sans ça, le port peut être remappé par Cursor → Playwright tape à côté.
 2. **Stale dev server** : si une session précédente a planté, `lsof -i:11111` peut révéler un process zombie qui sert un vieux code. `pkill -f "vite|vp dev"` puis relancer. Symptôme typique : `POST /next` renvoie 500 alors que le code source est correct.
 3. **Chromium dans WSL2** : binaire à `~/.cache/ms-playwright/chromium*/chrome-linux64/chrome`. Si `Browser executable not found` : `npx playwright install chromium`.
 
