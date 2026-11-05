@@ -21,6 +21,8 @@ export default defineConfig({
       "**/by_seeds_hard/**",
       ".claude/skills/vp/**",
       ".claude/skills/datastar/**",
+      // Datastar livré tel quel (bundle minifié) : vp check ne lit que les ignorePatterns racine.
+      "**/public/datastar.js",
     ],
   },
   lint: {
@@ -34,13 +36,19 @@ export default defineConfig({
     options: { typeAware: true, typeCheck: true },
   },
   test: {
+    // Vitest v4 compatibility: preserve mock call history.
+    // Remove after tests no longer rely on calls from setup or earlier tests.
+    // https://viteplus.dev/guide/vitest-v5#remove-unneeded-compatibility-settings
+    // https://vitest.dev/guide/migration/#clearmocks-is-enabled-by-default
+    clearMocks: false,
     // Les suites de tests-e2e/ sont du Playwright (`playwright test` via
     // `vp run test:e2e`), pas du Vitest : sans cette exclusion, `vp test` à la
     // racine ramasse les *.spec.ts d'apps/demos et sort en erreur.
     exclude: ["**/node_modules/**", "**/dist/**", "**/tests-e2e/**"],
   },
   run: {
-    cache: true,
+    // `run.cache` reste au défaut, scripts hors cache : sous WSL2, le cache des scripts ne peut pas
+    // lancer tsgolint (EBUSY, https://github.com/voidzero-dev/vite-plus/issues/1643).
     tasks: {
       "butterflies:fetch": {
         command: "node scripts/butterflies-list-dataset-builder/fetch-butterflies.ts",

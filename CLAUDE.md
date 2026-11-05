@@ -242,7 +242,7 @@ one-off parallèle quand un équivalent existe.
 - **La présentation OFFICIELLE** du projet est `presentations/butterfly-gpt`
   (titre « Karpathy's MicroGPT »). C'est le SEUL deck de contenu à faire évoluer.
   **Lancement en une commande** : `vp run slides` (= `vp run -F microgpt-ts
-build && vp run -F @vp-monorepo-butterfly-gpt/butterfly-gpt dev` — le build de
+  build && vp run -F @vp-monorepo-butterfly-gpt/butterfly-gpt dev` — le build de
   microgpt-ts d'abord, car le deck importe le package buildé ; script racine ; raccourci
   `vpr slides`) → http://localhost:11117. NB : `vp slides` tout court n'existe
   pas — vp n'exécute les scripts que via `vp run`/`vpr`.

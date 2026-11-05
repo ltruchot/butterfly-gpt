@@ -49,7 +49,7 @@ Ajouter au `package.json` :
 > runtime SOUS la tâche `vp run test:e2e` → échec (marqueur d'env
 > `VP_COMMAND`, cf. CLAUDE.md « Piège vp générique »). Un éventuel build
 > préalable va dans le SCRIPT `test:e2e` (`vp run -F <pkg> build && playwright
-test …` — là, Vite Task inline correctement) ; le webServer lance un binaire
+> test …` — là, Vite Task inline correctement) ; le webServer lance un binaire
 > direct (`npx slidev --remote --port <n>`) ou `vp dev`, qui fonctionne, lui.
 
 ### `playwright.config.ts` — pattern monorepo
