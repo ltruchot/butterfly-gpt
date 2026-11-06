@@ -13,6 +13,33 @@
     "version": 1
   },
   "skills": {
+    "css-modern": {
+      "answers": {
+        "TOKENS_FILE": "presentations/butterfly-gpt/styles/tokens.css",
+        "TOKEN_PREFIX": "--bgpt"
+      },
+      "files": {
+        "SKILL.md": "3392b24ebd17e68a09e836eeb19cfbce30f3eb60458575b340603c0bdc0b1e3f",
+        "references/accessibility.md": "51e19fb8ee8fb513e166a463237e43efda48d94be70423c626152b69d7836720",
+        "references/animations.md": "ca20a87af57cf9103d45c803a62c03d8157b07c7620cb1e02f0887fb0584b54b",
+        "references/color.md": "d847ffef51f074455a888d115b9904ee3b8c9a3495404527091e630b6d5de98c",
+        "references/design-tokens.md": "4ef0a80eca79eb3bc2215cd042f36405db2807a6c55e07c2d6d9279229b9952a",
+        "references/layout.md": "cdf04b79af9980c870392a17d1e920b738f688de1d6f466d3a0f752d6d6bbd5e",
+        "references/reset.md": "50de34987819c2f31cff050ab19b1f4d2178697c1c1a07bab8b325a796addf70",
+        "references/selectors.md": "feaf67ab5dfe13a3f1f3239f1471c3b6ab6c236ac81774a9f67f96756a013afc",
+        "references/typography.md": "70ed8e3db7353ec4642a0ae8a75ec50537a79f67fffd8edc033618d92b53c846",
+        "references/utilities.md": "4e8e233a629cc9d24863ff8fc6ebdfc51f257f09c69aea0b38c693c2ab55c071"
+      },
+      "path": ".claude/skills/css-modern",
+      "ref": "0.6.3",
+      "renderedHash": "4be531f6455d989a8946434406675bf0eb43afefe4e5d3475590d65571894fb6",
+      "secrets": [],
+      "sha": "local:14c55c3d8072c12494b2139f1f67e99cf2c34bd12c2a4f5567e6f10b2e6544df",
+      "skillPath": "skills/css-modern",
+      "source": "qol-mini",
+      "sourceType": "local",
+      "templateHash": "2d851968c79dc3250a1481039c976a4487d80305e03e4a5c1526417e4bd845c4"
+    },
     "datastar": {
       "answers": {},
       "files": {

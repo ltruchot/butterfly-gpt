@@ -12,7 +12,7 @@ export default defineConfig({
   // Caches de poids générés (un JSON compact de milliers de nombres par modèle) :
   // hors formateur, sinon Oxfmt les « pretty-print » → un nombre par ligne, taille
   // multipliée. Ce sont des artefacts, pas des sources.
-  // .claude/skills/{vp,datastar} : gérées par qol-mini (.claude/qol-mini.lock.json),
+  // .claude/skills/{vp,datastar,css-modern} : gérées par qol-mini (.claude/qol-mini.lock.json),
   // jamais réécrites ici.
   fmt: {
     ignorePatterns: [
@@ -20,6 +20,7 @@ export default defineConfig({
       "**/by_seeds/**",
       "**/by_seeds_hard/**",
       ".claude/skills/vp/**",
+      ".claude/skills/css-modern/**",
       ".claude/skills/datastar/**",
       // Datastar livré tel quel (bundle minifié) : vp check ne lit que les ignorePatterns racine.
       "**/public/datastar.js",
@@ -31,6 +32,7 @@ export default defineConfig({
     ignorePatterns: [
       "presentations/**/styles/**",
       ".claude/skills/vp/**",
+      ".claude/skills/css-modern/**",
       ".claude/skills/datastar/**",
     ],
     options: { typeAware: true, typeCheck: true },
