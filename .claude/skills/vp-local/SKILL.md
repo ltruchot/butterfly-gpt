@@ -1,10 +1,6 @@
 ---
 name: vp-local
 description: Ce que Vite+ a de propre à ce monorepo, en complément de la skill partagée `vp` - les apps et leurs ports, les decks Slidev, le registre des ports, les pièges rencontrés ici. À charger avec `vp` avant de toucher package.json, vite.config.ts, pnpm-workspace.yaml, ou de lancer dev/build/test.
-paths:
-  - "**/package.json"
-  - "**/vite.config.ts"
-  - "pnpm-workspace.yaml"
 ---
 
 # Vite+ dans ce monorepo
